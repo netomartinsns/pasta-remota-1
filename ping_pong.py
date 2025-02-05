@@ -1,5 +1,7 @@
 import pygame
 import sys
+import time
+import math
 
 # Inicializa o Pygame
 pygame.init()
@@ -17,6 +19,11 @@ BLACK = (0, 0, 0)
 ball_speed = [3, 3]
 ball = pygame.Rect(WIDTH // 2 - 15, HEIGHT // 2 - 15, 30, 30)
 
+#variaveis do contador
+player1_score = 0
+player2_score = 0
+a = player2_score
+b = player1_score
 # Configurações das raquetes
 paddle_speed = 6
 paddle1 = pygame.Rect(10, HEIGHT // 2 - 60, 10, 120)
@@ -29,6 +36,7 @@ def draw():
     pygame.draw.rect(screen, WHITE, paddle2)
     pygame.draw.ellipse(screen, WHITE, ball)
     pygame.display.flip()
+    
 
 # Função principal do jogo
 def main():
@@ -38,6 +46,7 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w] and paddle1.top > 0:
@@ -54,11 +63,26 @@ def main():
 
         if ball.top <= 0 or ball.bottom >= HEIGHT:
             ball_speed[1] = -ball_speed[1]
+        if ball.left <= 0 or ball.right >= WIDTH:
+          ball_speed[0] = -ball_speed[0]
+        if ball.left <= 0 or ball.left >= WIDTH:
+         global a
+         a += 1
+         print(a)
+        if ball.right <= 0 or ball.right >= WIDTH:
+         global b
+         b += 1
+         print(b)
+         
+         
+         
+         
         if ball.colliderect(paddle1) or ball.colliderect(paddle2):
             ball_speed[0] = -ball_speed[0]
 
         draw()
         clock.tick(60)
+        
 
 if __name__ == "__main__":
     main()
